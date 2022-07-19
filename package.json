@@ -1,0 +1,24 @@
+{
+  "name": "task-manager",
+  "version": "1.0.0",
+  "description": "projet fil rouge pour les stagiaires I3 - projet de gestion de taches",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BryAth/Express_FilRouge.git",
+    "start": "app.js"
+  },
+  "author": "Lequeux Bryan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/BryAth/Express_FilRouge/issues"
+  },
+  "homepage": "https://github.com/BryAth/Express_FilRouge#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "nodemon": "^2.0.19"
+  }
+}
