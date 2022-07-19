@@ -4,12 +4,14 @@
   "description": "projet fil rouge pour les stagiaires I3 - projet de gestion de taches",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cross-env NODE_ENV=production node app.js",
+    "dev" : "cross-env NODE_ENV=development nodemon app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/BryAth/Express_FilRouge.git",
-    "start": "app.js"
+    "url": "git+https://github.com/BryAth/Express_FilRouge.git"
+    
   },
   "author": "Lequeux Bryan",
   "license": "ISC",
@@ -18,6 +20,8 @@
   },
   "homepage": "https://github.com/BryAth/Express_FilRouge#readme",
   "dependencies": {
+    "cross-env": "^7.0.3",
+    "dotenv-flow": "^3.2.0",
     "express": "^4.18.1",
     "nodemon": "^2.0.19"
   }
