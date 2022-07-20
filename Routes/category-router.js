@@ -1,6 +1,9 @@
     const express = require('express'); //Importation du module express
     const categoryRouter = express.Router(); // A partir de la méthode Router (),on construit un nouveau  router qu'on appelle  CategoryRouter
 
+    //Import du controller category 
+    const categoryController = require('../controllers/category-controllers')
+
     // const categoryRouter = require('express').Router() => Manière plus rapide pour 
 
     //Configuration des différentes routes,
@@ -43,17 +46,17 @@
 
 categoryRouter.route('/')
 
-.get((req, res) => { res.sendStatus(501);}) //Récupération de toutes les catégories
+.get(categoryController.getAll) //Récupération de toutes les catégories
 
-.post((req, res) => { res.sendStatus(501);}) //Ajout d'une nouvelle catégorie
+.post(categoryController.create) //Ajout d'une nouvelle catégorie
 
 categoryRouter.route('/:id')
 
-.get((req,res) => { res.sendStatus(501); }) //Récupération d'une catégorie en particulier
+.get(categoryController.getById) //Récupération d'une catégorie en particulier
 
-.put((req, res) => { res.sendStatus(501) ;}) //Modification d'une catégorie
+.put(categoryController.update) //Modification d'une catégorie
 
-.delete((req, res) => { res.sendStatus(501)}); //Suppresion d'une catégorie
+.delete(categoryController.delete); //Suppresion d'une catégorie
 
 
     //On exporte le module router 

@@ -11,10 +11,13 @@ require("dotenv-flow").config();
 
 // console.log(process.env);
 //On extrait de process.en,les variables d'environemment dont on aura besoin par la suite.
-const { MESSAGE,NODE_ENV, PORT  } = process.env
+const { MESSAGE,NODE_ENV, PORT ,DB_CONNECTION } = process.env
 console.log( 'Lancé en ' , NODE_ENV, ' : ', MESSAGE );
 
 
+//Import du module mongoose
+
+const mongoose = require('mongoose');
 
 
 //Création d'un serveur Express :
@@ -25,10 +28,14 @@ const express = require('express');
 
 const router = require("./Routes");
 
+//On importe la librarie qui gère les erreurs await async
+
+require('express-async-errors')
 const app = express()
 
 
 //#region route temporaire pour vérifier que notre application express fonctionne bien avant de faire un routing  tout propre
+
 
 
 
@@ -46,6 +53,19 @@ const app = express()
             
 //On indique à notre serveur , qu'à l'arrivée sur la route /api,il doit utiliser notre module router
 app.use('/api',router);
+
+
+//On indique à notre app que pour chaque requête ,elle doit l'intercepter
+
+    //Elle doit donc se trouver avant
+app.use(async(req,res,next) => {
+    //On attends que la connection à la bdd soit établie
+    await mongoose.connect(DB_CONNECTION)
+    
+    console.log("Connection réussie ! ");
+    //Une fois qu'elle est correctement établie,on passe à la suite de la requête
+    next();
+})
 
 //On crée le serveur et on le stocke dans une variable.
 
