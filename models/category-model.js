@@ -17,7 +17,9 @@ const categorySchema = new Schema({
         required : true,
         trim : true
         } 
-        },{ 
+        },
+        
+        { 
         collection : 'Category',
         timestamps : true
     

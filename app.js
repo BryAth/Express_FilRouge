@@ -37,6 +37,9 @@ const app = express()
 //#region route temporaire pour vérifier que notre application express fonctionne bien avant de faire un routing  tout propre
 
 
+//Ajout d'un middleware pour permettre à notre serveur de lire des objetcs json en post 
+// /!\ A mettre en premier middleware 
+app.use(express.json());
 
 
 //Mise en place d'une route temporaire
@@ -52,7 +55,7 @@ const app = express()
             // })
             
 //On indique à notre serveur , qu'à l'arrivée sur la route /api,il doit utiliser notre module router
-app.use('/api',router);
+
 
 
 //On indique à notre app que pour chaque requête ,elle doit l'intercepter
@@ -67,10 +70,11 @@ app.use(async(req,res,next) => {
     next();
 })
 
+app.use('/api',router);
 //On crée le serveur et on le stocke dans une variable.
 
 
 //On met le server sur écoute sur le port précisé dans la variable d'environnement port
 app.listen(PORT, () => {
     console.log(`Server up on port : ${PORT} [${NODE_ENV}]`);
-})
+})  
