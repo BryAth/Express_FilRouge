@@ -19,11 +19,14 @@
   },
   "homepage": "https://github.com/BryAth/Express_FilRouge#readme",
   "dependencies": {
+    "argon2": "^0.28.7",
     "cross-env": "^7.0.3",
     "dotenv-flow": "^3.2.0",
     "express": "^4.18.1",
     "express-async-errors": "^3.1.1",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^6.4.5",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "yup": "^0.32.11"
   }
 }

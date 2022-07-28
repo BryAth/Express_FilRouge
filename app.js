@@ -24,13 +24,15 @@ const mongoose = require('mongoose');
 // 1) Toujours faire en premier  : importer express et le stocker dans une variable .
 const express = require('express');
 
+
+//On importe la librarie qui gère les erreurs await async
+require('express-async-errors')
+
 //On importe notre module router présent dans l'index.js en important tout le dossier routes
 
 const router = require("./Routes");
 
-//On importe la librarie qui gère les erreurs await async
 
-require('express-async-errors')
 const app = express()
 
 

@@ -1,24 +1,30 @@
+const taskController = require('../controllers/task-controller');
+const bodyValidation = require('../middlewares/body-validation');
+const idValidator = require('../middlewares/idValidator');
+
+const {insertTaskValidator,updateTaskValidator} = require ('../validators/task-validator')
+
 const taskRouter = require('express').Router();
 
 
-
+//!
 
 taskRouter.route('/')
 
-.get((req,res) => { res.sendStatus(501);})
-.post((req,res) => { res.sendStatus(501);})
+.get(taskController.getAll)
+.post( bodyValidation(insertTaskValidator) ,taskController.create)
 
 taskRouter.route('/:id')
 
-.get((req,res) => {res.sendStatus(501);})
-.put((req, res) => { res.sendStatus(501) ;}) //Modification d'une catégorie
+.get(idValidator(),taskController.getById)
+.put(idValidator(),taskController.update) //Modification d'une catégorie
 
-.delete((req, res) => { res.sendStatus(501)}); //Suppresion d'une catégorie
+.delete(idValidator(),taskController.delete); //Suppresion d'une catégorie
 
-taskRouter.route('/categoryname')
-.get((req,res) => { res.sendStatus(501);})
+taskRouter.route('category/:categoryname')
+.get(taskController.getByCategory)
 
-taskRouter.route('/username')
-.get((req,res) => {res.sendStatus(501);})
+taskRouter.route('user/:username')
+.get(taskController.getByUser)
 
 module.exports = taskRouter;

@@ -2,7 +2,11 @@
     const categoryRouter = express.Router(); // A partir de la méthode Router (),on construit un nouveau  router qu'on appelle  CategoryRouter
 
     //Import du controller category 
-    const categoryController = require('../controllers/category-controllers')
+    const categoryController = require('../controllers/category-controllers');
+const idValidator = require('../middlewares/idValidator');
+const bodyValidation = require ("../middlewares/body-validation")
+const categoryValidator = require ("../validators/category-validator");
+const authentification = require('../middlewares/auth-jwt-middleware');
 
     // const categoryRouter = require('express').Router() => Manière plus rapide pour 
 
@@ -43,21 +47,21 @@
     //On peut remarquer que les routes '/' et '/:id' se répètent mais avec différentes méthodes (get, put, post, delete)
 
 //Il existe une écriture raccourcie pour définir les routes
-
+// categoryRouter.use(idValidator())
 categoryRouter.route('/')
 
 .get(categoryController.getAll) //Récupération de toutes les catégories
 
-.post(categoryController.create) //Ajout d'une nouvelle catégorie
+.post(authentification(["User","Moderator","Admin"]), bodyValidation(categoryValidator),categoryController.create) //Ajout d'une nouvelle catégorie
 
 categoryRouter.route('/:id')
 
-.get(categoryController.getById) //Récupération d'une catégorie en particulier
+.get(idValidator(),categoryController.getById) //Récupération d'une catégorie en particulier
 
-.put(categoryController.update) //Modification d'une catégorie
+.put(authentification(["Admin","Moderator"]), bodyValidation(categoryValidator),categoryController.update) //Modification d'une catégorie
 
-.delete(categoryController.delete); //Suppresion d'une catégorie
+.delete(authentification("Admin"),categoryController.delete); //Suppresion d'une catégorie
 
-
+// ^ On rajoute notre middleware de validation de format de l'iD pour chaque route ou on a besoin de valider l'id
     //On exporte le module router 
     module.exports = categoryRouter;

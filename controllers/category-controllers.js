@@ -26,7 +26,7 @@ const categoryController = {
             res.status(200).json(category);
         } // Si category n'exite pas,renvoie un statut 200 et la catégorie obtenue ;
         else{
-            res.sendStatus(404)
+            return res.sendStatus(404)
             //Si la catégorie est null,on renvoie une erreur 404 => Ressource not found
         }
     },
@@ -38,11 +38,42 @@ const categoryController = {
         res.status(200).json(categoryToAdd);
     },
     
-    update : async  (req,res) => {console.log(`Modification de la catégorie dont l'id est [${req.params.id}]`)
-    res.sendStatus(501)},
+    update : async  (req,res) => {
+        const id = req.params.id;
+        const category =  await Category.findByIdAndUpdate(id, {
+            name : req.body.name,
+            icon : req.body.icon
+        }, {returnDocument : 'after'}); //Le comportement par défaut du findByIdAndUpdate renvoie l'élément avant qu'il ne soit modifier
+                                        // Si on veut récupérer l'élement après modification,on devra rajouter l'option returnDocument : 'after'
+        if(category){
+            res.status(200).json(category);
+        }
+        else{
+            return res.sendStatus(404)
+        }
+    },
     
-    delete : async (req,res) => {console.log(`Supression de la catégorie dont l'id est [${req.params.id}] `)
-    res.sendStatus(501)}
+    delete : async (req,res) => 
+        {
+            const id = req.params.id;
+            //La fonction findByIdAndDelete renvoie l'élément qui a été delete si trouvé,sinon,renvoie null
+            const categoryToDelete =   await Category.findByIdAndDelete(id);
+            //On doit vérifier si categoryToDelete n'est pas null
+            if(categoryToDelete){
+                res.sendStatus(204) //La requête a réussi mais l'appli client n'a pas besoin de quitter la page
+            }
+            else{
+                return res.sendStatus(404) //Si categoryToDelete est null,c'est que l'id recherché n'existe pas : Not found
+            }
+
+        }
+    
+    // {console.log(`Supression de la catégorie dont l'id est [${req.params.id}] `)
+    // res.sendStatus(501)}
+    
+    
+    
+    
     //Opérations CRUD
     //C => Create
     //R => Read

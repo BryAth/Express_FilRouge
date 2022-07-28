@@ -1,3 +1,9 @@
+const userController = require('../controllers/user-controller');
+const idValidator = require('../middlewares/idValidator');
+const userValidator = require('../validators/user-validator');
+const bodyValidation = require('../middlewares/body-validation');
+const authentification = require('../middlewares/auth-jwt-middleware');
+
 const userRouter = require('express').Router();
 
 
@@ -5,14 +11,15 @@ const userRouter = require('express').Router();
 
 userRouter.route('/')
 
-.get((req,res) => { res.sendStatus(501);})
+    .get(userController.getAll)
 
 userRouter.route('/:id')
 
-.get((req,res) => {res.sendStatus(501);})
-.put((req, res) => { res.sendStatus(501) ;}) //Modification d'une catégorie
-
-.delete((req, res) => { res.sendStatus(501)}); //Suppresion d'une catégorie
+    .get(authentification(), idValidator(),userController.getById)
+    
+    .put(authentification(["Admin"]),idValidator(),bodyValidation(userValidator),userController.update) //Modification d'une catégorie
+    
+    .delete(authentification(["Admin"]),idValidator(),userController.delete); //Suppresion d'une catégorie
 
 
 module.exports = userRouter;    

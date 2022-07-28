@@ -1,15 +1,19 @@
+const authController = require('../controllers/auth.controller');
+
 const authRouter = require('express').Router();
+const bodyValidation = require ('../middlewares/body-validation')
+const {registerValidator, loginValidator} = require('../validators/auth-validator')
 
 
 
 
-authRouter.route('/login')
+authRouter.route('/login',bodyValidation(loginValidator))
 
-.post((req,res) => { res.sendStatus(501);})
+.post(authController.login) 
 
 authRouter.route('/register')
 
-.post((req,res) => { res.sendStatus(501);})
+.post(bodyValidation(registerValidator),authController.register);
 
 
 
