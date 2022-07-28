@@ -21,7 +21,7 @@ const taskController  = {
     
     getById : async(req,res) => {
         const id =  req.params.id;
-        const task = await Task.findById(id)
+        const task = await Task.find()
         .populate({
         path : 'categoryId',
         select : { name : 1 , icon : 1 }
@@ -41,9 +41,45 @@ const taskController  = {
     res.status(200).json(task)
     },
     
-    getByCategory : () => {},
+    getByCategory : async (req,res) => {
+        //On récupère l'id de la route,qui contient l'id de notre catégorie.
+        const id = req.params.id
+
+        const receivefilter = {categoryId : id }
+
+        //! On veut les taches dans le champs categoryId 
+        const task = await Task.find(receivefilter).populate({
+        path : 'categoryId',
+        select : {name : 1  , icon : 1 }
+    })
+        if(!task){
+            return res.sendStatus(404)
+        }
+        res.status(200).json(task)
+    },
     
-    getByUser : () => {},
+    getByUser : async(req,res) => {const id = req.params.id
+        console.log("coucou")
+        const filter = {receiver : id }
+
+        //! On veut les taches dans le champs categoryId 
+        const task = await Task.find(filter)
+        
+        .populate({
+        path : 'categoryId',
+        select : {name : 1 , icon : 1  }
+    })
+    .populate({
+        path : 'senderUserId',
+        select : {firstname : 1 , lastname : 1 , pseudo : 1 }
+    }).populate({
+        path : 'receiver',
+        select : {firstname : 1 , lastname : 1 , pseudo : 1 }
+    })
+        if(!task){
+            return res.sendStatus(404)
+        }
+        res.status(200).json(task)},
     
     
     //Création

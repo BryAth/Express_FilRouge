@@ -21,10 +21,10 @@ taskRouter.route('/:id')
 
 .delete(idValidator(),taskController.delete); //Suppresion d'une catégorie
 
-taskRouter.route('category/:categoryname')
+taskRouter.route('/category/:id')
 .get(taskController.getByCategory)
 
-taskRouter.route('user/:username')
+taskRouter.route('/user/:id')
 .get(taskController.getByUser)
 
 module.exports = taskRouter;
